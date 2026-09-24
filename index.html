@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Incubator Strategy Console — Mashauri</title>
+<meta name="description" content="A strategy dashboard mapping incubator inputs to outputs and impact, benchmarking against the five persistent limitations of university-led incubators, and diagnosing studentpreneur support gaps." />
+<link rel="preconnect" href="https://api.fontshare.com" />
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,500,400&f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%230c7d75' d='M20 2 35 11 35 29 20 38 5 29 5 11Z'/%3E%3Cpath stroke='%23fff' stroke-width='3' fill='none' d='M12 27 20 15 24 21 29 12' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+</head>
+<body>
+<div class="dashboard">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <svg viewBox="0 0 40 40" fill="none" aria-label="Incubator Strategy Console logo">
+        <path d="M20 2 35 11 35 29 20 38 5 29 5 11Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M12 27 20 15 24 21 29 12" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <div class="brand-name">Incubator Strategy<br/>Console</div>
+        <div class="brand-sub">Mashauri &middot; Program Ops</div>
+      </div>
+    </div>
+
+    <div class="nav-group-label">Strategy</div>
+    <nav class="nav-list" role="list">
+      <button class="nav-item is-active" data-view="overview" data-testid="nav-overview">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        Overview
+      </button>
+      <button class="nav-item" data-view="logic" data-testid="nav-logic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="4.5" cy="12" r="2.5"/><circle cx="12" cy="5.5" r="2.5"/><circle cx="12" cy="18.5" r="2.5"/><circle cx="19.5" cy="12" r="2.5"/><path d="M7 12h10M12 8v-.5M12 16v-.5"/></svg>
+        Logic Model
+      </button>
+      <button class="nav-item" data-view="benchmark" data-testid="nav-benchmark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/><path d="M12 2a10 10 0 0 1 8.66 15L12 12Z"/></svg>
+        Benchmark vs 5 Limitations
+      </button>
+      <button class="nav-item" data-view="diagnostic" data-testid="nav-diagnostic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2h6v4H9z"/><path d="M8 6h8l1 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2Z"/><path d="M12 11v5M9.5 13.5h5"/></svg>
+        Gap Diagnostic
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      Grounded in <a href="https://actacommercii.co.za/index.php/acta/article/view/1530" target="_blank" rel="noopener">Acta Commercii (2026)</a> research on university-led business incubator limitations. Adjust every slider to model your own program.
+    </div>
+  </aside>
+
+  <header class="header">
+    <div>
+      <div class="header-title" id="header-title">Overview</div>
+      <div class="header-subtitle" id="header-subtitle">Program health at a glance, computed live from your benchmark and diagnostic inputs.</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn" id="reset-all" data-testid="button-reset-all">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+        Reset all
+      </button>
+      <button class="btn btn-primary" id="print-btn" data-testid="button-export">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><rect x="6" y="14" width="12" height="8"/><path d="M6 18H4a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2"/></svg>
+        Export / Print
+      </button>
+      <button class="icon-btn" id="theme-toggle" aria-label="Switch to dark mode" data-testid="button-theme-toggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- ===================== OVERVIEW ===================== -->
+    <section id="view-overview" class="view active">
+      <div class="section-heading">
+        <span class="eyebrow">Live Snapshot</span>
+        <h2>Program health, computed from your inputs</h2>
+        <p>These four indicators recalculate automatically as you adjust the Benchmark and Diagnostic tools. They give a one-glance read on mission-to-impact maturity and where to act first.</p>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-label">Benchmark Maturity</span>
+          <span class="kpi-value" id="kpi-maturity" data-testid="text-kpi-maturity">—</span>
+          <span class="kpi-delta good" id="kpi-maturity-delta" data-testid="text-kpi-maturity-delta">—</span>
+          <span class="kpi-hint">Average score across the 5 persistent-limitation dimensions (1&ndash;5 scale)</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Weakest Dimension</span>
+          <span class="kpi-value" id="kpi-weakest" data-testid="text-kpi-weakest">—</span>
+          <span class="kpi-delta warn" id="kpi-weakest-score" data-testid="text-kpi-weakest-score">—</span>
+          <span class="kpi-hint">Lowest-scoring limitation on your Benchmark tab &mdash; treat as strategic risk</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Diagnostic Gaps Logged</span>
+          <span class="kpi-value" id="kpi-gaps" data-testid="text-kpi-gaps">—</span>
+          <span class="kpi-delta bad" id="kpi-gaps-quickwins" data-testid="text-kpi-gaps-quickwins">—</span>
+          <span class="kpi-hint">Organizational + studentpreneur-support gaps under active review</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Top Priority Action</span>
+          <span class="kpi-value" id="kpi-top-action" data-testid="text-kpi-top-action" style="font-size: var(--text-base);">—</span>
+          <span class="kpi-delta bad" id="kpi-top-action-score" data-testid="text-kpi-top-action-score">—</span>
+          <span class="kpi-hint">Highest priority score on the Gap Diagnostic quadrant</span>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="section-heading" style="margin-bottom: var(--space-4);">
+            <h2 style="font-size: var(--text-base);">How the dashboard fits together</h2>
+          </div>
+          <div style="display:flex; flex-direction:column; gap: var(--space-4);">
+            <div style="display:flex; gap: var(--space-3);">
+              <div style="width:28px; height:28px; border-radius:50%; background: var(--color-primary-highlight); color: var(--color-primary-active); display:flex; align-items:center; justify-content:center; font-family: var(--font-display); font-weight:700; font-size: var(--text-xs); flex-shrink:0;">1</div>
+              <div><strong style="font-size: var(--text-sm);">Logic Model</strong><p style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top:2px;">Trace how funding, facilities and expertise convert into short-term outputs and long-term impact for Mashauri's university, TTO and bootcamp programs.</p></div>
+            </div>
+            <div style="display:flex; gap: var(--space-3);">
+              <div style="width:28px; height:28px; border-radius:50%; background: var(--color-primary-highlight); color: var(--color-primary-active); display:flex; align-items:center; justify-content:center; font-family: var(--font-display); font-weight:700; font-size: var(--text-xs); flex-shrink:0;">2</div>
+              <div><strong style="font-size: var(--text-sm);">Benchmark vs 5 Limitations</strong><p style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top:2px;">Score your mission clarity, financing, industry links, entrepreneurial-attitude building and post-program scalability against research on university-led incubators.</p></div>
+            </div>
+            <div style="display:flex; gap: var(--space-3);">
+              <div style="width:28px; height:28px; border-radius:50%; background: var(--color-primary-highlight); color: var(--color-primary-active); display:flex; align-items:center; justify-content:center; font-family: var(--font-display); font-weight:700; font-size: var(--text-xs); flex-shrink:0;">3</div>
+              <div><strong style="font-size: var(--text-sm);">Gap Diagnostic</strong><p style="font-size: var(--text-xs); color: var(--color-text-muted); margin-top:2px;">Rate the severity and fix-effort of organizational and studentpreneur-support gaps to get a ranked, quadrant-based action list.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="section-heading" style="margin-bottom: var(--space-4);">
+            <h2 style="font-size: var(--text-base);">Why this matters for Mashauri</h2>
+          </div>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted); line-height:1.6;">
+            University-led incubators consistently struggle with five structural issues &mdash; inconsistent mission, financial constraints, weak industry links, underdeveloped founder mindsets and poor post-incubation scalability &mdash; because they sit inside inflexible academic structures (<a href="https://actacommercii.co.za/index.php/acta/article/view/1530" target="_blank" rel="noopener" style="color:var(--color-primary);">Acta Commercii, 2026</a>). As an external, dedicated entrepreneurial-education partner to universities, TTOs and research centres, Mashauri is structurally positioned to avoid some of these limitations &mdash; but not automatically immune to all of them. Use the tools on the next three tabs to prove it with evidence, not assumption.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== LOGIC MODEL ===================== -->
+    <section id="view-logic" class="view">
+      <div class="section-heading">
+        <span class="eyebrow">Theory of Change</span>
+        <h2>Inputs &rarr; Short-term outputs &rarr; Long-term impact</h2>
+        <p>Click any card to trace its downstream connections. This is the core resource-to-impact map for an entrepreneurial-education incubator model like Mashauri's.</p>
+      </div>
+
+      <div class="card">
+        <div class="logic-flow" id="logic-flow">
+          <div class="logic-col">
+            <div class="logic-col-head"><span class="dot" style="background:var(--color-primary)"></span><div><h3>Inputs</h3><span>What the program invests</span></div></div>
+            <div class="logic-item" data-col="input" data-id="i1" data-connects="o1,o2,o4">
+              <h4>Funding</h4>
+              <p>Institutional licensing &amp; program fees, TTO/bootcamp sponsorships, per-seat online-campus revenue, in-house scholarship pool for high-potential studentpreneurs.</p>
+            </div>
+            <div class="logic-item" data-col="input" data-id="i2" data-connects="o1,o3,o5">
+              <h4>Facilities</h4>
+              <p>Mashauri online campus (mashauri-courses.org), partner-university lab/co-working access, bootcamp venues embedded inside TTOs and research centres.</p>
+            </div>
+            <div class="logic-item" data-col="input" data-id="i3" data-connects="o2,o3,o4,o5">
+              <h4>Expertise</h4>
+              <p>Mentor &amp; industry-practitioner network, adjunct faculty and consultants, curriculum designers, TTO tech-transfer specialists.</p>
+            </div>
+          </div>
+
+          <div class="logic-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+
+          <div class="logic-col">
+            <div class="logic-col-head"><span class="dot" style="background:var(--color-violet)"></span><div><h3>Short-term outputs</h3><span>0&ndash;12 months</span></div></div>
+            <div class="logic-item" data-col="output" data-id="o1" data-connects="im1,im5">
+              <h4>Programs &amp; bootcamps delivered</h4>
+              <p>Cohorts run across partner universities, TTOs and scientist bootcamps; completion and satisfaction rates.</p>
+            </div>
+            <div class="logic-item" data-col="output" data-id="o2" data-connects="im1,im4">
+              <h4>Mentoring hours logged</h4>
+              <p>1:1 and group mentoring delivered per studentpreneur; mentor:participant ratio.</p>
+            </div>
+            <div class="logic-item" data-col="output" data-id="o3" data-connects="im2,im3">
+              <h4>Ventures &amp; MVPs prototyped</h4>
+              <p>Business model canvases, customer-discovery interviews and MVPs completed inside the program.</p>
+            </div>
+            <div class="logic-item" data-col="output" data-id="o4" data-connects="im4,im5">
+              <h4>Mindset shift evidenced</h4>
+              <p>Pre/post entrepreneurial self-efficacy and intent scores among scientists and students.</p>
+            </div>
+            <div class="logic-item" data-col="output" data-id="o5" data-connects="im2,im3,im5">
+              <h4>Institutional contracts renewed</h4>
+              <p>Universities/TTOs re-engaging Mashauri for subsequent cohorts or expanded scope.</p>
+            </div>
+          </div>
+
+          <div class="logic-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+
+          <div class="logic-col">
+            <div class="logic-col-head"><span class="dot" style="background:var(--color-accent)"></span><div><h3>Long-term impact</h3><span>1&ndash;5+ years</span></div></div>
+            <div class="logic-item" data-col="impact" data-id="im1">
+              <h4>Ventures launched &amp; surviving 3 years</h4>
+              <p>Alumni founding rate and 3-year survival of studentpreneur ventures.</p>
+            </div>
+            <div class="logic-item" data-col="impact" data-id="im2">
+              <h4>Follow-on funding &amp; licensing</h4>
+              <p>Capital raised, grants won, or IP licensed by alumni ventures out of TTO bootcamps.</p>
+            </div>
+            <div class="logic-item" data-col="impact" data-id="im3">
+              <h4>Jobs &amp; regional spillovers</h4>
+              <p>Employment created by alumni ventures; new activity in partner research ecosystems.</p>
+            </div>
+            <div class="logic-item" data-col="impact" data-id="im4">
+              <h4>Durable entrepreneurial mindset</h4>
+              <p>Alumni continuing to found, join, or advise startups years after the program.</p>
+            </div>
+            <div class="logic-item" data-col="impact" data-id="im5">
+              <h4>Institutional reputation &amp; scale</h4>
+              <p>University/TTO enrollment and reputation gains; multi-year, multi-campus contract growth.</p>
+            </div>
+          </div>
+        </div>
+        <p class="logic-hint" style="margin-top: var(--space-5);">Tip: click "Expertise" to see it fuels every output category &mdash; a sign mentor capacity is Mashauri's highest-leverage (and highest-risk) resource.</p>
+      </div>
+    </section>
+
+    <!-- ===================== BENCHMARK ===================== -->
+    <section id="view-benchmark" class="view">
+      <div class="section-heading">
+        <span class="eyebrow">Comparison Tool</span>
+        <h2>Your program vs. the 5 persistent limitations of university-led incubators</h2>
+        <p>Research across university-led business incubators (ULBIs) repeatedly identifies the same five structural weaknesses (<a href="https://actacommercii.co.za/index.php/acta/article/view/1530" target="_blank" rel="noopener">Acta Commercii, 2026</a>). Score Mashauri's mission clarity and resource allocation from 1 (limitation fully present) to 5 (fully mitigated) on each, and compare against a research-informed baseline for a typical university-led incubator.</p>
+      </div>
+
+      <div class="benchmark-grid">
+        <div class="card">
+          <div class="chart-wrap"><canvas id="radarChart" data-testid="chart-benchmark-radar"></canvas></div>
+          <div class="legend-row">
+            <span class="legend-chip"><span class="legend-swatch" style="background:#0c7d75"></span>Your program</span>
+            <span class="legend-chip"><span class="legend-swatch" style="background:#b1453a"></span>Typical university-led incubator (research baseline)</span>
+          </div>
+        </div>
+        <div class="card" style="display:flex; flex-direction:column; gap: var(--space-4);">
+          <div class="section-heading" style="gap:2px;">
+            <h2 style="font-size: var(--text-base);">Score your program</h2>
+            <p style="font-size:var(--text-xs);">1 = limitation fully present &middot; 5 = fully mitigated</p>
+          </div>
+          <div id="benchmark-sliders" style="display:flex; flex-direction:column; gap: var(--space-4);"></div>
+        </div>
+      </div>
+
+      <div class="section-heading">
+        <h2 style="font-size: var(--text-base);">Limitation-by-limitation breakdown</h2>
+      </div>
+      <div class="grid-3" id="limitation-cards"></div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th style="width:16%;">Limitation</th><th style="width:30%;">Research finding</th><th style="width:34%;">Mashauri's mitigation / exposure</th><th style="width:10%;">Your score</th><th style="width:10%;">Gap to ideal</th></tr></thead>
+          <tbody id="limitation-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===================== DIAGNOSTIC ===================== -->
+    <section id="view-diagnostic" class="view">
+      <div class="section-heading">
+        <span class="eyebrow">Diagnostic &amp; Prioritization</span>
+        <h2>Where should Mashauri fix organizational performance and studentpreneur support first?</h2>
+        <p>Rate each gap's severity (how much it's hurting outcomes) and the effort required to close it. The tool computes a priority score (Severity &times; ease-of-fix) and plots every gap on a quick-wins quadrant.</p>
+      </div>
+
+      <div class="priority-callout" id="priority-callout"></div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="section-heading" style="margin-bottom: var(--space-3);"><h2 style="font-size: var(--text-base);">Prioritization quadrant</h2></div>
+          <div class="chart-wrap" style="height:380px;"><canvas id="quadrantChart" data-testid="chart-diagnostic-quadrant"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="section-heading" style="margin-bottom: var(--space-3);"><h2 style="font-size: var(--text-base);">Ranked action list</h2></div>
+          <div class="table-wrap" style="border:none;">
+            <table class="data-table">
+              <thead><tr><th>Gap</th><th>Severity</th><th>Effort</th><th>Priority</th><th>Tier</th></tr></thead>
+              <tbody id="ranked-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-controls">
+        <div class="tabs-pill" id="diag-tabs">
+          <button class="tab-pill-btn is-active" data-cat="all" data-testid="filter-all">All gaps</button>
+          <button class="tab-pill-btn" data-cat="org" data-testid="filter-org">Organizational performance</button>
+          <button class="tab-pill-btn" data-cat="student" data-testid="filter-student">Studentpreneur support</button>
+        </div>
+      </div>
+
+      <div id="diag-list" style="display:flex; flex-direction:column; gap: var(--space-4);"></div>
+
+    </section>
+
+    <footer class="sources">
+      Methodology &amp; sources &mdash; the five-limitations framework (inconsistent mission, financial constraints, weak industry links, poor entrepreneurial attitudes, low scalability) is drawn from:
+      <ul>
+        <li>&middot; <a href="https://actacommercii.co.za/index.php/acta/article/view/1530" target="_blank" rel="noopener">"Investigating the efficacy of university-led business incubators," Acta Commercii (2026)</a></li>
+        <li>&middot; <a href="https://www.tandfonline.com/doi/full/10.1080/13215906.2025.2519142" target="_blank" rel="noopener">"Exploring factors hampering the performance of business incubators in South Africa," Journal of Contemporary Management (2025)</a> &mdash; financial and organizational-resource constraints</li>
+        <li>&middot; <a href="https://www.econstor.eu/bitstream/10419/316122/1/1910566225.pdf" target="_blank" rel="noopener">"University business incubators as a tool for accelerating entrepreneurship," EconStor working paper</a> &mdash; funding, facilities and industry-linkage barriers</li>
+      </ul>
+      All scores, sliders and sample metrics in this tool are illustrative starting points for self-assessment &mdash; replace them with your program's real figures.
+    </footer>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
